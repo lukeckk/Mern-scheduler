@@ -14,14 +14,3 @@ export const tasks = [
     description: 'Discuss about MinT'
   }
 ]
-
-// export const updateTask = (updatedTask) => {
-//   console.log('Updating task:', updatedTask); // Log the task to update
-//   const index = tasks.findIndex((task) => task.id === updatedTask.id);
-//   if (index !== -1) {
-//     tasks[index] = updatedTask; // Update the task
-//     console.log('Updated tasks:', tasks); // Log the updated array
-//   } else {
-//     console.error('Task not found:', updatedTask.id); // Log if the task isn't found
-//   }
-// };
