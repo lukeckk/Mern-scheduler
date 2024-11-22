@@ -16,8 +16,29 @@ import React from 'react';
 import { AddTaskModal } from './addTask'; // Import the modal component
 
 export const Calendar = () => {
+  const [tasks, setTasks] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const eventsService = createEventsServicePlugin();
+
+  // Fetch tasks from the API
+  const fetchTasks = () => {
+    fetch('http://localhost:5000/tasks')
+      .then((response) => response.json())
+      .then((data) => {
+        console.log('fetched data:', data);
+
+        // Add each task to the Events Service Plugin
+        data.forEach((task) => {
+          eventsService.add(task);
+        });
+        setTasks(data);
+      })
+      .catch((error) => console.error('Error fetching tasks:', error));
+  };
+
+  useEffect(() => {
+    fetchTasks();
+  }, []);
 
  
   const handleAddTask = async (taskData) => {
@@ -42,6 +63,9 @@ export const Calendar = () => {
   
       const result = JSON.parse(responseText);
       console.log('Parsed response:', result);
+
+      //  immediately add a newly created task to the calendar after a successful POST request.
+      // eventsService.add(result);
   
       fetchTasks();
     } catch (error) {
@@ -49,24 +73,6 @@ export const Calendar = () => {
       alert(`Failed to add task: ${error.message}`);
     }
   };
-
-  const [tasks, setTasks] = useState([]);
-
-  // Fetch tasks from the API
-  const fetchTasks = () => {
-    fetch('http://localhost:5000/tasks')
-      .then((response) => response.json())
-      .then((data) => {
-        console.log('fetched data:', data);
-        setTasks(data);
-      })
-      .catch((error) => console.error('Error fetching tasks:', error));
-  };
-
-  useEffect(() => {
-    fetchTasks();
-  }, []);
-
 
   const calendar = useCalendarApp({
     views: [createViewDay(), createViewWeek(), createViewMonthGrid(), createViewMonthAgenda()],
