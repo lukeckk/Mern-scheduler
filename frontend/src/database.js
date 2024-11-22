@@ -21,4 +21,12 @@ const getTasks = (callback) => {
   })
 }
 
-module.exports = { db, getTasks };
+const addTask = (task, callback) => {
+  db.run(
+    'INSERT INTO task (id, title, start, end, description) VALUES (?, ?, ?, ?, ?)',
+    [task.id, task.title, task.start, task.end, task.description || ''],
+    (err) => callback(err)
+  );
+};
+
+module.exports = { db, getTasks, addTask };

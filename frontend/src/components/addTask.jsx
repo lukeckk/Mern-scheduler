@@ -16,9 +16,26 @@ export const AddTaskModal = ({ isOpen, onClose, onSubmit }) => {
     }));
   };
 
+  const formatDateTime = (isoString) => {
+    const date = new Date(isoString);
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are 0-based
+    const day = String(date.getDate()).padStart(2, '0');
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+    return `${year}-${month}-${day} ${hours}:${minutes}`;
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSubmit(taskData);
+  
+    const formattedTaskData = {
+      ...taskData,
+      start: formatDateTime(taskData.start),
+      end: formatDateTime(taskData.end),
+    };
+  
+    onSubmit(formattedTaskData);
     setTaskData({
       title: '',
       description: '',

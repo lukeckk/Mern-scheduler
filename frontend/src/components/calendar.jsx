@@ -16,24 +16,8 @@ import React from 'react';
 import { AddTaskModal } from './addTask'; // Import the modal component
 
 export const Calendar = () => {
-  const [tasks, setTasks] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const eventsService = createEventsServicePlugin();
-
-  // Fetch tasks from the API
-  const fetchTasks = () => {
-    fetch('http://localhost:5000/tasks')
-      .then((response) => response.json())
-      .then((data) => {
-        console.log('fetched data:', data);
-        setTasks(data);
-      })
-      .catch((error) => console.error('Error fetching tasks:', error));
-  };
-
-  useEffect(() => {
-    fetchTasks();
-  }, []);
 
  
   const handleAddTask = async (taskData) => {
@@ -65,6 +49,24 @@ export const Calendar = () => {
       alert(`Failed to add task: ${error.message}`);
     }
   };
+
+  const [tasks, setTasks] = useState([]);
+
+  // Fetch tasks from the API
+  const fetchTasks = () => {
+    fetch('http://localhost:5000/tasks')
+      .then((response) => response.json())
+      .then((data) => {
+        console.log('fetched data:', data);
+        setTasks(data);
+      })
+      .catch((error) => console.error('Error fetching tasks:', error));
+  };
+
+  useEffect(() => {
+    fetchTasks();
+  }, []);
+
 
   const calendar = useCalendarApp({
     views: [createViewDay(), createViewWeek(), createViewMonthGrid(), createViewMonthAgenda()],
