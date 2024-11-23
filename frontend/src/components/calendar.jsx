@@ -18,7 +18,8 @@ import { AddTaskModal } from './addTask'; // Import the modal component
 export const Calendar = () => {
   const [tasks, setTasks] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const eventsService = createEventsServicePlugin();
+  // ensures that eventsService is only created once, and its reference persists across re-renders.
+  const [eventsService] = useState(() => createEventsServicePlugin());
 
   // Fetch tasks from the API
   const fetchTasks = () => {
@@ -28,8 +29,11 @@ export const Calendar = () => {
         console.log('fetched data:', data);
 
         // Add each task to the Events Service Plugin
+        // if statement to check for duplicates
         data.forEach((task) => {
-          eventsService.add(task);
+          if (!eventsService.getAll().some((existingTask) => existingTask.id === task.id)) {
+            eventsService.add(task);
+          }
         });
         setTasks(data);
       })
