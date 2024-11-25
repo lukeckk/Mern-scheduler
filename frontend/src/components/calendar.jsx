@@ -23,7 +23,7 @@ export const Calendar = () => {
 
   // Fetch tasks from the API
   const fetchTasks = () => {
-    fetch('http://localhost:5000/tasks')
+    fetch('http://localhost:5001/tasks')
       .then((response) => response.json())
       .then((data) => {
         console.log('fetched data:', data);
@@ -49,7 +49,7 @@ export const Calendar = () => {
     try {
       console.log('About to send request with data:', taskData);
   
-      const response = await fetch('http://localhost:5000/tasks', {
+      const response = await fetch('http://localhost:5001/tasks', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
