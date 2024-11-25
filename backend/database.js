@@ -1,4 +1,4 @@
-const sqlite3 = require('sqlite3').verbose();
+import sqlite3 from 'sqlite3';
 
 // Open the SQLite database
 const db = new sqlite3.Database('./data/task.db', (err) => {
@@ -29,4 +29,4 @@ const addTask = (task, callback) => {
   );
 };
 
-module.exports = { db, getTasks, addTask };
+export { db, getTasks, addTask };

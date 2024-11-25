@@ -1,19 +1,33 @@
-const express = require('express');
-const cors = require('cors');
-const { getTasks, addTask } = require('./database');
+import express from 'express';
+import cors from 'cors';
+import { getTasks, addTask } from './database.js';
+import connectDB from './config/db.js';
+
+// port for sqlite
+// const PORT = 5001;
+
+// port for mongoDB
+const PORT = 5002
+connectDB();
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
-app.get('/tasks', (req, res) => {
-  getTasks((err, tasks) => {
-    if (err) {
-      res.status(500).json({ error: 'Failed to fetch tasks' });
-    } else {
-      res.json(tasks);
-    }
-  });
+// sqlite
+// app.get('/tasks', (req, res) => {
+//   getTasks((err, tasks) => {
+//     if (err) {
+//       res.status(500).json({ error: 'Failed to fetch tasks' });
+//     } else {
+//       res.json(tasks);
+//     }
+//   });
+// });
+
+// mongoDB
+app.get('/', (req, res) => {
+  res.send('API is running... this can be found in server.js');
 });
 
 app.post('/tasks', (req, res) => {
@@ -31,7 +45,7 @@ app.post('/tasks', (req, res) => {
   });
 });
 
-const PORT = 5001;
+
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
 });
