@@ -3,6 +3,7 @@ import cors from 'cors';
 import { getTasks, addTask } from './database.js';
 import connectDB from './config/db.js';
 import dotenv from 'dotenv';
+import taskRoutes from './routes/taskRoutes.js'
 
 
 // port for sqlite
@@ -48,6 +49,8 @@ app.use(express.json());
 app.get('/', (req, res) => {
   res.send('API is running... this can be found in server.js');
 });
+
+app.use('/tasks', taskRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
